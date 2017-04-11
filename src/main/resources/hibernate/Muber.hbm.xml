@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
+ 
+<hibernate-mapping package="muber.entities">
+ 
+    <class name="Muber" table="muber" dynamic-update="true" >
+        
+        <id name="idMuber" column="id_muber">
+            <generator class="increment" />
+        </id>
+	<!-- Relación unidireccional con Conductor -->
+        <set name="conductores" cascade="all"> 
+        	<key column="id_muber" not-null="true"/>
+			<one-to-many class="Conductor"/>
+		</set>
+		
+		<!-- Relación unidireccional con Pasajero -->
+		<set name="pasajeros" cascade="all">
+			<key column="id_muber"/>
+			<one-to-many class="Pasajero"/>
+		</set>
+		
+		<!-- Relación unidireccional con Viaje -->
+		<set name="viajes" cascade="all">
+			<key column="id_muber"/>
+			<one-to-many class="Viaje"/>
+		</set>
+    </class>
+</hibernate-mapping>
