@@ -16,6 +16,11 @@ public class Viaje {
 	private Conductor conductorViaje;
 	private List<Pasajero> pasajerosViaje;
 	private String estado;
+	
+	public Viaje(){
+		
+	}
+	
 	public Long getIdViaje() {
 		return idViaje;
 	}

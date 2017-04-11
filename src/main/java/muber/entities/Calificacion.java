@@ -5,8 +5,13 @@ public class Calificacion {
 	private Long idCalificacion;
 	private String comentario;
 	private int puntaje;
-	private Pasajero calificacionPasajero;
-	private Viaje calificacionViaje;
+	private Pasajero pasajero;
+	private Viaje viaje;
+	
+	public Calificacion(){
+		
+	}
+	
 	public Long getIdCalificacion() {
 		return idCalificacion;
 	}
@@ -25,17 +30,17 @@ public class Calificacion {
 	public void setPuntaje(int puntaje) {
 		this.puntaje = puntaje;
 	}
-	public Pasajero getCalificacionPasajero() {
-		return calificacionPasajero;
+	public Pasajero getPasajero() {
+		return pasajero;
 	}
-	public void setCalificacionPasajero(Pasajero calificacionPasajero) {
-		this.calificacionPasajero = calificacionPasajero;
+	public void setPasajero(Pasajero calificacionPasajero) {
+		this.pasajero = calificacionPasajero;
 	}
-	public Viaje getCalificacionViaje() {
-		return calificacionViaje;
+	public Viaje getViaje() {
+		return viaje;
 	}
-	public void setCalificacionViaje(Viaje calificacionViaje) {
-		this.calificacionViaje = calificacionViaje;
+	public void setvViaje(Viaje viaje) {
+		this.viaje = viaje;
 	}
 	
 	

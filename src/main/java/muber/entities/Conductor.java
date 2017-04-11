@@ -7,6 +7,7 @@ public class Conductor extends Usuario {
 
 	private Date fechaVencimientoLicencia;
 	private List<Viaje> viajesRealizadosConductor;
+	private List<Calificacion> calificacionesConductor;
 	
 	public Date getFechaVencimientoLicencia() {
 		return fechaVencimientoLicencia;
@@ -19,6 +20,12 @@ public class Conductor extends Usuario {
 	}
 	public void setViajesRealizadosConductor(List<Viaje> viajesRealizados) {
 		this.viajesRealizadosConductor = viajesRealizados;
+	}
+	public List<Calificacion> getCalificacionesConductor() {
+		return calificacionesConductor;
+	}
+	public void setCalificacionesConductor(List<Calificacion> calificacionesConductor) {
+		this.calificacionesConductor = calificacionesConductor;
 	}
 	
 	

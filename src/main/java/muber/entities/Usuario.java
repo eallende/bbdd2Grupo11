@@ -9,6 +9,9 @@ public class Usuario {
 	private String password;
 	private Date fechaIngresoMuber;
 	
+	public Usuario(){
+		
+	}
 	
 	public Long getIdUsuario() {
 		return idUsuario;
