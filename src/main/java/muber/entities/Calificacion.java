@@ -39,7 +39,7 @@ public class Calificacion {
 	public Viaje getViaje() {
 		return viaje;
 	}
-	public void setvViaje(Viaje viaje) {
+	public void setViaje(Viaje viaje) {
 		this.viaje = viaje;
 	}
 	
