@@ -9,11 +9,44 @@
         <id name="idUsuario" column="id_usuario">
             <generator class="increment" />
         </id>
-        <!-- El discriminator va siempre después del id y antes de todos los campos. -->
+
         <discriminator column="tipo_usuario" not-null="false" type="string" length="10" />
         
         <property name="nombreUsuario" column="nombre_usuario" unique="true" type="string" />
         <property name="password" column="password" type="string" />
-        <property name="fechaIngresoMuber" column="fecha_ingreso_muber" type="timestamp"/>  
+        <property name="fechaIngresoMuber" column="fecha_ingreso_muber" type="timestamp"/> 
+        
+  <!-- Este mapeo es si tenemos una tabla por cada clase, en este caso no hacen falta Pasajero.hbm.xml y Conductor.hbm.xml -->   
+
+<!-- <subclass name="Conductor" discriminator-value="conductor"  > -->
+<!-- 	<join table="conductor"> -->
+<!-- 		<key column="id_usuario"/> -->
+<!-- 		<property name="fechaVencimientoLicencia" column="fecha_vto_licencia" type="timestamp" not-null="true"/>  -->
+		
+ 		<!-- Relación bidireccional con Viaje --> 
+<!-- 		<set name="viajesRealizadosConductor" inverse="true" cascade="all"> -->
+<!-- 			<key column="id_conductor"/> -->
+<!-- 			<one-to-many class="Viaje"/> -->
+<!-- 		</set> -->
+		
+ 		<!-- Relación unidireccional con Calificación --> 
+<!-- 		<set name="calificacionesConductor" cascade="all"> -->
+<!-- 			<key column="id_conductor"/> -->
+<!-- 			<one-to-many class="Calificacion"/> -->
+<!-- 		</set> -->
+<!-- 	</join> -->
+<!-- </subclass> -->
+<!-- <subclass name="Pasajero" discriminator-value="pasajero"  > -->
+<!-- 	<join table="pasajero"> -->
+<!-- 		<key column="id_usuario"/> -->
+<!-- 		<property name="creditoDisponible" column="credito_disponible" type="double" not-null="true"/>  -->
+		
+ 		<!-- Relación bidireccional con Viaje --> 
+<!-- 		<set name="viajesRealizadosPasajero" table="viaje_pasajero" cascade="all"> -->
+<!-- 			<key column="id_pasajero"/> -->
+<!-- 			<many-to-many column="id_viaje" class="Viaje"/> -->
+<!-- 		</set> -->
+<!-- 	</join> -->
+<!-- </subclass> --> 
     </class>
 </hibernate-mapping>
