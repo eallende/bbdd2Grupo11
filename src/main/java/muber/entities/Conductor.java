@@ -1,5 +1,6 @@
 package muber.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,12 @@ public class Conductor extends Usuario {
 	private Date fechaVencimientoLicencia;
 	private List<Viaje> viajesRealizadosConductor;
 	private List<Calificacion> calificacionesConductor;
+	
+	public Conductor(){
+		
+		viajesRealizadosConductor = new ArrayList<Viaje>();
+		calificacionesConductor = new ArrayList<Calificacion>();
+	}
 	
 	public Date getFechaVencimientoLicencia() {
 		return fechaVencimientoLicencia;

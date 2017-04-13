@@ -1,11 +1,16 @@
 package muber.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pasajero extends Usuario {
 	
 	private List<Viaje> viajesRealizadosPasajero;
 	private double creditoDisponible;
+	
+	public Pasajero(){
+		viajesRealizadosPasajero = new ArrayList<Viaje>();
+	}
 
 	public List<Viaje> getViajesRealizadosPasajero() {
 		return viajesRealizadosPasajero;

@@ -1,5 +1,6 @@
 package muber.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class Viaje {
 	private String estado;
 	
 	public Viaje(){
-		
+		pasajerosViaje = new ArrayList<Pasajero>();
 	}
 	
 	public Long getIdViaje() {
