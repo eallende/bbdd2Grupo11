@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import muber.dao.CalificacionDAO;
 import muber.dao.ConductorDAO;
 import muber.dao.DAOFactory;
 import muber.dao.MuberDAO;
@@ -61,9 +62,6 @@ public class MuberIntegrationTest {
 		//Crear conductor
 		Conductor conductor = createConductorTest();
 		
-		//Agregar conductor a muber
-		muber.getConductores().add((Conductor) conductor);
-		
 		//Crear Viaje
 		Viaje viaje = createViajeTest();
 		
@@ -77,6 +75,15 @@ public class MuberIntegrationTest {
 		viaje.getPasajerosViaje().add(pasajeroAlicia);
 		viaje.getPasajerosViaje().add(pasajeroMargarita);
 		
+		//Agregar conductor al viaje
+		viaje.setConductorViaje(conductor);
+		
+		//Actualizar viaje
+		updateViaje(viaje);
+		
+		//Agregar conductor a muber
+		muber.getConductores().add((Conductor) conductor);
+		
 		//Agregar pasajeros a muber
 		muber.getPasajeros().add(pasajeroGerman);
 		muber.getPasajeros().add(pasajeroAlicia);
@@ -85,37 +92,28 @@ public class MuberIntegrationTest {
 		//Agregar viaje a muber
 		muber.getViajes().add(viaje);
 		
-		//Agregar conductor al viaje
-		viaje.setConductorViaje(conductor);
+		//Actualizar muber
+		updateMuber();
 		
 		//Crear calificaciones
-		Calificacion calificacionGerman = new Calificacion();
-		calificacionGerman.setPasajero(pasajeroGerman);
-		calificacionGerman.setPuntaje(5);
-		calificacionGerman.setComentario("Muy bueno el viaje");
-		calificacionGerman.setViaje(viaje);
-		
-		Calificacion calificacionAlicia = new Calificacion();
-		calificacionGerman.setPasajero(pasajeroAlicia);
-		calificacionGerman.setPuntaje(3);
-		calificacionGerman.setComentario("Viaje regular");
-		calificacionGerman.setViaje(viaje);
-		
-		Calificacion calificacionMargarita = new Calificacion();
-		calificacionGerman.setPasajero(pasajeroMargarita);
-		calificacionGerman.setPuntaje(4);
-		calificacionGerman.setComentario("Viaje bueno");
-		calificacionGerman.setViaje(viaje);
+		Calificacion calificacionGerman = createCalificacionTest(pasajeroGerman, 5, "Muy bueno el viaje", viaje);
+		Calificacion calificacionAlicia = createCalificacionTest(pasajeroAlicia, 3, "Viaje regular", viaje);
+		Calificacion calificacionMargarita = createCalificacionTest(pasajeroMargarita, 4, "Viaje bueno", viaje);
 		
 		//Agregar calificaciones al conductor
 		conductor.getCalificacionesConductor().add(calificacionGerman);
 		conductor.getCalificacionesConductor().add(calificacionAlicia);
 		conductor.getCalificacionesConductor().add(calificacionMargarita);
 		
+		//Agregar viaje al conductor
+		conductor.getViajesRealizadosConductor().add(viaje);
+		
+		//Actualizar conductor
+		updateConductor(conductor);
+		
 		//Descontar crédito a pasajeros.
 		finalizarViajeTest(viaje);
-		
-		
+
 		
 	}
 	
@@ -153,7 +151,7 @@ public class MuberIntegrationTest {
 		ViajeDAO viajeDAO = DAOFactory.getViajeDAO();
 		try {
 			saveViaje = viajeDAO.save(viaje);
-			log.info("-----------Se creo el viaje id: " +viaje.getIdViaje()+ "---------");
+			log.info("-----------Se creo el viaje id: " +saveViaje.getIdViaje()+ "---------");
 			log.info("-----------Fin de operación: createViajeTest---------");
 		} catch (DAOException e) {
 			log.error("********Ocurrió un error al intentar guardar el viaje********");
@@ -173,13 +171,34 @@ public class MuberIntegrationTest {
 		Pasajero savePasajero = null;
 		try{
 			savePasajero = pasajeroDAO.save(pasajero);
-			log.info("-----------Se creo el pasajero id: " +pasajero.getIdUsuario()+ "---------");
+			log.info("-----------Se creo el pasajero id: " +savePasajero.getIdUsuario()+ "---------");
 			log.info("-----------Fin de operación: createPasajeroTest---------");
 		}catch (DAOException e){
 			log.error("********Ocurrió un error al intentar guardar el pasajero: "+nombre+"********");
 			e.toString();
 		}
 		return savePasajero;
+	}
+	
+	public static Calificacion createCalificacionTest(Pasajero pasajero, int puntaje, String comentario, Viaje viaje){
+		
+		log.info("-----------Inicio de operación: createCalificacionTest---------");
+		Calificacion calificacion = new Calificacion();
+		calificacion.setPasajero(pasajero);
+		calificacion.setPuntaje(puntaje);
+		calificacion.setComentario(comentario);
+		calificacion.setViaje(viaje);
+		CalificacionDAO calificacionDAO = DAOFactory.getCalificacionDAO();
+		Calificacion saveCalificacion = null;
+		try{
+			saveCalificacion = calificacionDAO.save(calificacion);
+			log.info("-----------Se creo la calificación id: " +saveCalificacion.getIdCalificacion()+ "---------");
+			log.info("-----------Fin de operación: createCalificacionTest---------");
+		}catch(DAOException e){
+			log.error("********Ocurrió un error al intentar guardar la calificación********");
+			e.toString();
+		}
+		return saveCalificacion;
 	}
 	
 	private static void finalizarViajeTest(Viaje viaje){
@@ -189,8 +208,68 @@ public class MuberIntegrationTest {
 		double montoViaje = viaje.getCostoTotal() / viaje.getPasajerosViaje().size();
 		for(Pasajero pasajero : pasajeros){
 			pasajero.setCreditoDisponible(pasajero.getCreditoDisponible() - montoViaje);
+			//Actualizar pasajero
+			updatePasajero(pasajero);
 		}
 		
 		viaje.setEstado(EstadoEnum.FINALIZADO.toString());
+		//Actualizar viaje
+		updateViaje(viaje);
+	}
+	
+	private static void updateViaje(Viaje viaje){
+		
+		log.info("-----------Inicio de operación: updateViaje---------");
+		ViajeDAO viajeDAO = DAOFactory.getViajeDAO();
+		try{
+			viajeDAO.update(viaje);
+			log.info("-----------Se actualizó el viaje id: " +viaje.getIdViaje()+ "---------");
+			log.info("-----------Fin de operación: updateViaje---------");
+		}catch(DAOException e){
+			log.error("********Ocurrió un error al intentar actualizar el viaje: "+viaje.getIdViaje()+"********");
+			e.toString();
+		}
+	}
+	
+	private static void updateMuber(){
+		
+		log.info("-----------Inicio de operación: updateMuber---------");
+		MuberDAO muberDAO = DAOFactory.getMuberDAO();
+		try{
+			muberDAO.update(muber);
+			log.info("-----------Se actualizó muber id: " +muber.getIdMuber()+ "---------");
+			log.info("-----------Fin de operación: updateMuber---------");
+		}catch(DAOException e){
+			log.error("********Ocurrió un error al intentar actualizar muber: "+muber.getIdMuber()+"********");
+			e.toString();
+		}
+	}
+	
+	private static void updateConductor(Conductor conductor){
+		
+		log.info("-----------Inicio de operación: updateConductor---------");
+		ConductorDAO conductorDAO = DAOFactory.getConductorDAO();
+		try{
+			conductorDAO.update(conductor);
+			log.info("-----------Se actualizó el conductor id: " +conductor.getIdUsuario()+ "---------");
+			log.info("-----------Fin de operación: updateConductor---------");
+		}catch(DAOException e){
+			log.error("********Ocurrió un error al intentar actualizar el conductor: "+conductor.getIdUsuario()+"********");
+			e.toString();
+		}
+	}
+	
+	private static void updatePasajero(Pasajero pasajero){
+		
+		log.info("-----------Inicio de operación: updatePasajero---------");
+		PasajeroDAO pasajeroDAO = DAOFactory.getPasajeroDAO();
+		try{
+			pasajeroDAO.update(pasajero);
+			log.info("-----------Se actualizó el pasajero id: " +pasajero.getIdUsuario()+ "---------");
+			log.info("-----------Fin de operación: updatePasajero---------");
+		}catch(DAOException e){
+			log.error("********Ocurrió un error al intentar actualizar el pasajero: "+pasajero.getIdUsuario()+"********");
+			e.toString();
+		}
 	}
 }

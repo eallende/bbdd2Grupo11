@@ -2,6 +2,7 @@ package muber.dao.imlp;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import muber.dao.GenericDAO;
@@ -19,9 +20,35 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
 	public T save(T entity) throws DAOException {
 		Session session = null;
 		 try {
-	         session = HibernateUtil.getSessionFactory().getCurrentSession();
+	         session = HibernateUtil.getSessionFactory().openSession();
 	         Transaction tx = session.beginTransaction();
 	         session.save(entity);
+	         tx.commit();
+	      }
+	      catch (HibernateException e) {
+	         throw new DAOException(e.toString());
+	      }
+	      finally {
+	         if (session != null) {
+	            try {
+	               session.close();
+	            }
+	            catch (HibernateException e) {
+	            	e.getMessage();
+	            }
+	         }
+	      }
+
+	      return entity;
+	   }
+	
+	
+	public T update(T entity) throws DAOException {
+		Session session = null;
+		 try {
+	         session = HibernateUtil.getSessionFactory().openSession();
+	         Transaction tx = session.beginTransaction();
+	         session.update(entity);
 	         tx.commit();
 	      }
 	      catch (HibernateException e) {

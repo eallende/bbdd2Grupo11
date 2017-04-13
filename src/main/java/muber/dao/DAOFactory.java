@@ -1,5 +1,6 @@
 package muber.dao;
 
+import muber.dao.imlp.CalificacionDAOImpl;
 import muber.dao.imlp.ConductorDAOImpl;
 import muber.dao.imlp.MuberDAOImpl;
 import muber.dao.imlp.PasajeroDAOImpl;
@@ -25,5 +26,9 @@ public class DAOFactory {
 	
 	public static ConductorDAO getConductorDAO(){
 		return new ConductorDAOImpl();
+	}
+
+	public static CalificacionDAO getCalificacionDAO() {
+		return new CalificacionDAOImpl();
 	}
 }
