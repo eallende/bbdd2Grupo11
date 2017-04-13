@@ -21,10 +21,10 @@
 			<many-to-one name="conductorViaje" column="conductor_viaje" not-null="true" cascade="all"/>
 	        
 	        <!-- Relación bidireccional con Pasajero -->
-			<set name="pasajerosViaje" table="viaje_pasajero" inverse="true" cascade="all">
+			<bag name="pasajerosViaje" table="viaje_pasajero" inverse="true" cascade="all">
 				<key column="id_viaje"/>
 				<many-to-many column="id_pasajero" class="Pasajero"/>
-			</set>
+			</bag>
 			
 		</class>
 </hibernate-mapping>

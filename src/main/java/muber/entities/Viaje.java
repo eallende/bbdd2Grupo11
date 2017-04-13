@@ -3,7 +3,7 @@ package muber.entities;
 import java.util.Date;
 import java.util.List;
 
-import muber.utils.EstadoEnum;
+import muber.util.EstadoEnum;
 
 public class Viaje {
 

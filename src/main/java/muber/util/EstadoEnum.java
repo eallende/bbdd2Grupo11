@@ -1,4 +1,4 @@
-package muber.utils;
+package muber.util;
 
 public enum EstadoEnum {
 

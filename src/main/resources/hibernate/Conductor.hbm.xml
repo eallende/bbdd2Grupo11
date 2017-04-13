@@ -8,15 +8,15 @@
 		<property name="fechaVencimientoLicencia" column="fecha_vto_licencia" type="timestamp"/> 
 		
 		<!-- Relación bidireccional con Viaje -->
-		<set name="viajesRealizadosConductor" inverse="true" cascade="all">
+		<bag name="viajesRealizadosConductor" inverse="true" cascade="all">
 			<key column="id_conductor"/>
 			<one-to-many class="Viaje"/>
-		</set>
+		</bag>
 		
 		<!-- Relación unidireccional con Calificación -->
-		<set name="calificacionesConductor" cascade="all">
+		<bag name="calificacionesConductor" cascade="all">
 			<key column="id_conductor"/>
 			<one-to-many class="Calificacion"/>
-		</set>
+		</bag>
     </subclass>
 </hibernate-mapping>
