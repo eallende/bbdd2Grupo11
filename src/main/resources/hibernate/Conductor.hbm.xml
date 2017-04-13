@@ -5,7 +5,7 @@
  
 <hibernate-mapping package="muber.entities">
     <subclass name="Conductor" extends="Usuario" discriminator-value="conductor"  >
-		<property name="fechaVencimientoLicencia" column="fecha_vto_licencia" type="timestamp" not-null="true"/> 
+		<property name="fechaVencimientoLicencia" column="fecha_vto_licencia" type="timestamp"/> 
 		
 		<!-- Relación bidireccional con Viaje -->
 		<set name="viajesRealizadosConductor" inverse="true" cascade="all">

@@ -1,5 +1,6 @@
 package muber.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Muber {
@@ -10,7 +11,9 @@ public class Muber {
 	private List<Viaje> viajes;
 	
 	public Muber(){
-		
+		conductores = new ArrayList<Conductor>();
+		pasajeros = new ArrayList<Pasajero>();
+		viajes = new ArrayList<Viaje>();
 	}
 
 	

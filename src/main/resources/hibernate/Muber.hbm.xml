@@ -12,7 +12,7 @@
         </id>
 	<!-- Relación unidireccional con Conductor -->
         <set name="conductores" cascade="all"> 
-        	<key column="id_muber" not-null="true"/>
+        	<key column="id_muber"/>
 			<one-to-many class="Conductor"/>
 		</set>
 		
