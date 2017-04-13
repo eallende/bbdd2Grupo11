@@ -18,7 +18,7 @@
 			<property name="estado" column="estado" type="string" />
 			
 			<!-- Relación bidireccional con Conductor -->
-			<many-to-one name="conductorViaje" column="conductor_viaje" not-null="true" cascade="all"/>
+			<many-to-one name="conductorViaje" column="conductor_viaje" cascade="all"/>
 	        
 	        <!-- Relación bidireccional con Pasajero -->
 			<bag name="pasajerosViaje" table="viaje_pasajero" inverse="true" cascade="all">
